@@ -1,7 +1,14 @@
 import React from "react";
-import { FlatList, View, StyleSheet, Text, Image, Button } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
+
+import Text from "./Text";
+import RepositoryInfoBox from "./RepositoryInfoBox";
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 8,
+    borderColor: "black",
+  },
   flexContainerH: {
     display: "flex",
     flexDirection: "row",
@@ -26,15 +33,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   header: {
-    fontWeight: "700",
-    fontSize: 16,
     marginTop: 10,
     marginBottom: 5,
   },
   description: {
-    fontWeight: "400",
-    fontSize: 12,
-    color: "grey",
     marginBottom: 10,
   },
   badgeText: {
@@ -54,29 +56,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 4,
   },
-  boxValue: {
-    fontWeight: "700",
-    fontSize: 16,
-    color: "black",
-    marginBottom: 5,
-  },
-  boxTitle: {
-    fontWeight: "400",
-    fontSize: 12,
-    color: "gray",
-  },
 });
 
 const RepositoryItem = ({ item }) => {
-  const formatNumber = (number) => {
-    if (number >= 1000) {
-      return `${(number / 1000).toFixed(1)}k`;
-    }
-    return number;
-  };
-
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.flexContainerH}>
         <View style={[styles.flexContainerV, styles.imageContainer]}>
           <Image
@@ -87,34 +71,22 @@ const RepositoryItem = ({ item }) => {
           />
         </View>
         <View style={styles.flexContainerV}>
-          <Text style={styles.header}>{item.fullName}</Text>
-          <Text style={styles.description}>{item.description}</Text>
+          <Text fontSize="subheading" fontWeight="bold" style={styles.header}>
+            {item.fullName}
+          </Text>
+          <Text color="textSecondary" style={styles.description}>
+            {item.description}
+          </Text>
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{item.language}</Text>
           </View>
         </View>
       </View>
       <View style={[styles.flexContainerH, styles.boxRow]}>
-        <View style={[styles.flexContainerV, styles.box]}>
-          <Text style={styles.boxValue}>
-            {formatNumber(item.stargazersCount)}
-          </Text>
-          <Text style={styles.boxTitle}>Stars</Text>
-        </View>
-        <View style={[styles.flexContainerV, styles.box]}>
-          <Text style={styles.boxValue}>{formatNumber(item.forksCount)}</Text>
-          <Text style={styles.boxTitle}>Forks</Text>
-        </View>
-        <View style={[styles.flexContainerV, styles.box]}>
-          <Text style={styles.boxValue}>{formatNumber(item.reviewCount)}</Text>
-          <Text style={styles.boxTitle}>Reviews</Text>
-        </View>
-        <View style={[styles.flexContainerV, styles.box]}>
-          <Text style={styles.boxValue}>
-            {formatNumber(item.ratingAverage)}
-          </Text>
-          <Text style={styles.boxTitle}>Rating</Text>
-        </View>
+        <RepositoryInfoBox title="Stars" value={item.stargazersCount} />
+        <RepositoryInfoBox title="Forks" value={item.forksCount} />
+        <RepositoryInfoBox title="Reviews" value={item.reviewCount} />
+        <RepositoryInfoBox title="Rating" value={item.ratingAverage} />
       </View>
     </View>
   );
