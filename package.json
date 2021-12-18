@@ -11,11 +11,15 @@
     "lint": "eslint ./src/**/*.{js,jsx} App.js --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.6",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "dotenv": "^10.0.0",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "formik": "^2.2.9",
-    "react": ">=17.0.1",
-    "react-dom": ">=17.0.1",
+    "graphql": "^16.2.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.4.0",
     "react-native": "^0.63.4",
     "react-native-web": "^0.17.5",
     "react-router-native": "^6.0.0",
