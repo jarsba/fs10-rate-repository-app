@@ -55,7 +55,7 @@ const AppBar = () => {
             </Link>
           </Pressable>
           <Pressable style={styles.link}>
-            {data.authorizedUser ? (
+            {data && data?.authorizedUser ? (
               <Pressable onPress={() => logOut()}>
                 <Text
                   fontSize="subheading"
