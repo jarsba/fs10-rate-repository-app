@@ -3,12 +3,31 @@ import { useQuery } from "@apollo/client";
 
 import { GET_REPOSITORY } from "../graphql/queries";
 
-const useRepository = (id) => {
+const useRepository = (variables) => {
   const [repository, setRepository] = useState();
-  const { loading, error, data } = useQuery(GET_REPOSITORY, {
-    variables: { id },
-    fetchPolicy: "cache-and-network",
-  });
+  const { loading, error, data, fetchMore, ...result } = useQuery(
+    GET_REPOSITORY,
+    {
+      variables,
+      fetchPolicy: "cache-and-network",
+    }
+  );
+
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data?.repository?.reviews.pageInfo.hasNextPage;
+
+    if (!canFetchMore) {
+      return;
+    }
+
+    fetchMore({
+      variables: {
+        after: data.repository.reviews.pageInfo.endCursor,
+        ...variables,
+      },
+    });
+  };
 
   useEffect(() => {
     if (data) {
@@ -16,7 +35,7 @@ const useRepository = (id) => {
     }
   }, [data]);
 
-  return { repository };
+  return { repository, fetchMore: handleFetchMore, loading, ...result };
 };
 
 export default useRepository;

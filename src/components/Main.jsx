@@ -7,6 +7,7 @@ import AppBar from "./AppBar";
 import SignIn from "./SignIn";
 import ReviewFormPage from "./ReviewFormPage";
 import SignUpPage from "./SignUpPage";
+import UserReviewsPage from "./UserReviewsPage";
 
 import theme from "../../theme";
 import RepositoryPage from "./RepositoryPage";
@@ -29,6 +30,7 @@ const Main = () => {
         <Route path="/:id" element={<RepositoryPage />} />
         <Route path="/create" element={<ReviewFormPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/reviews" element={<UserReviewsPage />} />
       </Routes>
     </View>
   );

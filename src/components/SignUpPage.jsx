@@ -50,8 +50,6 @@ const SignUpPage = () => {
       console.log("Errors: " + error);
     }
     if (data) {
-      console.log(data);
-
       try {
         const result = await signIn({ username, password });
         if (result) {

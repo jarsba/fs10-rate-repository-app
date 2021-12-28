@@ -15,26 +15,35 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryPage = ({}) => {
   const { id } = useParams();
-  const { repository } = useRepository(id);
+  const { repository, fetchMore } = useRepository({
+    id,
+    first: 5,
+  });
 
   const reviews = repository
     ? repository.reviews.edges.map((n) => n.node)
     : null;
 
-  const repositoryContent = (
-    <FlatList
-      data={reviews}
-      renderItem={({ item }) => <ReviewItem review={item} />}
-      ItemSeparatorComponent={ItemSeparator}
-      keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => (
-        <RepositoryItem item={repository} singleItem={true} />
+  const onEndReach = () => {
+    fetchMore();
+  };
+  return (
+    <>
+      {reviews && (
+        <FlatList
+          data={reviews}
+          renderItem={({ item }) => <ReviewItem review={item} />}
+          ItemSeparatorComponent={ItemSeparator}
+          keyExtractor={({ id }) => id}
+          ListHeaderComponent={() => (
+            <RepositoryItem item={repository} singleItem={true} />
+          )}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
+        />
       )}
-      // ...
-    />
+    </>
   );
-
-  return <>{repository ? repositoryContent : <></>}</>;
 };
 
 export default RepositoryPage;

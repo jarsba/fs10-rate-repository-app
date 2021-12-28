@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryListContainer = ({ repositories, menu }) => {
+const RepositoryListContainer = ({ repositories, menu, onEndReach }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
@@ -23,6 +23,8 @@ const RepositoryListContainer = ({ repositories, menu }) => {
         <RepositoryItem item={item} singleItem={false} />
       )}
       ListHeaderComponent={menu}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };

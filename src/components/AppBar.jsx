@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
   },
   link: {
     padding: 5,
+    marginLeft: 5,
+    marginRight: 5,
   },
 });
 
@@ -54,7 +56,7 @@ const AppBar = () => {
               </Text>
             </Link>
           </Pressable>
-          {data && data?.authorizedUser && (
+          {data && data.authorizedUser && (
             <Pressable style={styles.link}>
               <Link to="/create">
                 <Text
@@ -63,6 +65,19 @@ const AppBar = () => {
                   style={styles.text}
                 >
                   Create a review
+                </Text>
+              </Link>
+            </Pressable>
+          )}
+          {data && data.authorizedUser && (
+            <Pressable style={styles.link}>
+              <Link to="/reviews">
+                <Text
+                  fontSize="subheading"
+                  fontWeight="bold"
+                  style={styles.text}
+                >
+                  My reviews
                 </Text>
               </Link>
             </Pressable>

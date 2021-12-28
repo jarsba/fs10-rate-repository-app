@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { View } from "react-native";
 import useRepositories from "../hooks/useRepositories";
 import RepositoryListContainer from "./RepositoryListContainer";
-import { Button, Menu, Provider } from "react-native-paper";
+import { Button, Menu, Searchbar } from "react-native-paper";
+import { useDebounce, useDebouncedCallback } from "use-debounce";
+
 import theme from "../../theme";
 
 const RepositoryListMenu = ({ setOrderBy, setOrderDirection }) => {
@@ -21,7 +23,6 @@ const RepositoryListMenu = ({ setOrderBy, setOrderDirection }) => {
   return (
     <View
       style={{
-        paddingTop: 10,
         paddingBottom: 10,
         flexDirection: "row",
         justifyContent: "center",
@@ -73,20 +74,72 @@ const RepositoryListMenu = ({ setOrderBy, setOrderDirection }) => {
   );
 };
 
+const RepositoryListSearchBar = ({ setSearcKeyword }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const onChangeSearch = (query) => {
+    setSearchQuery(query);
+    setSearcKeyword(query);
+  };
+
+  return (
+    <View
+      style={{
+        margin: 10,
+      }}
+    >
+      <Searchbar
+        placeholder="Search"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+      />
+    </View>
+  );
+};
+
+const RepositoryListHeader = ({
+  setOrderBy,
+  setOrderDirection,
+  setSearcKeyword,
+}) => {
+  return (
+    <>
+      <RepositoryListSearchBar setSearcKeyword={setSearcKeyword} />
+      <RepositoryListMenu
+        setOrderBy={setOrderBy}
+        setOrderDirection={setOrderDirection}
+      />
+    </>
+  );
+};
+
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState("CREATED_AT");
   const [orderDirection, setOrderDirection] = useState("DESC");
-  const { repositories } = useRepositories(orderBy, orderDirection);
+  const [searchKeyword, setSearcKeyword] = useState("");
+  const [debouncedSearchKeyword] = useDebounce(searchKeyword, 300);
+  const { repositories, fetchMore } = useRepositories({
+    orderBy,
+    orderDirection,
+    debouncedSearchKeyword,
+    first: 5,
+  });
+
+  const onEndReach = () => {
+    fetchMore()
+  };
 
   return (
     <RepositoryListContainer
       repositories={repositories}
       menu={
-        <RepositoryListMenu
+        <RepositoryListHeader
           setOrderBy={setOrderBy}
           setOrderDirection={setOrderDirection}
+          setSearcKeyword={setSearcKeyword}
         />
       }
+      onEndReach={onEndReach}
     />
   );
 };
