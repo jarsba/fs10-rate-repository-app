@@ -16,17 +16,23 @@ const styles = StyleSheet.create({
   },
 });
 
-const RepositoryInfoBox = ({ title, value }) => {
-  const formatNumber = (number) => {
-    if (number >= 1000) {
-      return `${(number / 1000).toFixed(1)}k`;
-    }
-    return number;
-  };
+export const formatNumber = (number) => {
+  if (number >= 1000) {
+    return `${(number / 1000).toFixed(1)}k`;
+  }
+  return number;
+};
+
+const RepositoryInfoBox = ({ title, value, testID }) => {
 
   return (
     <View style={styles.container}>
-      <Text fontSize="subheading" fontWeight="bold" style={styles.boxValue}>
+      <Text
+        fontSize="subheading"
+        fontWeight="bold"
+        style={styles.boxValue}
+        testID={testID}
+      >
         {formatNumber(value)}
       </Text>
       <Text color="textSecondary">{title}</Text>

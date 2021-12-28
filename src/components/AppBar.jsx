@@ -54,6 +54,19 @@ const AppBar = () => {
               </Text>
             </Link>
           </Pressable>
+          {data && data?.authorizedUser && (
+            <Pressable style={styles.link}>
+              <Link to="/create">
+                <Text
+                  fontSize="subheading"
+                  fontWeight="bold"
+                  style={styles.text}
+                >
+                  Create a review
+                </Text>
+              </Link>
+            </Pressable>
+          )}
           <Pressable style={styles.link}>
             {data && data?.authorizedUser ? (
               <Pressable onPress={() => logOut()}>
@@ -77,6 +90,19 @@ const AppBar = () => {
               </Link>
             )}
           </Pressable>
+          {data && !data?.authorizedUser && (
+            <Pressable style={styles.link}>
+              <Link to="/signup">
+                <Text
+                  fontSize="subheading"
+                  fontWeight="bold"
+                  style={styles.text}
+                >
+                  Sign up
+                </Text>
+              </Link>
+            </Pressable>
+          )}
         </View>
       </ScrollView>
     </View>

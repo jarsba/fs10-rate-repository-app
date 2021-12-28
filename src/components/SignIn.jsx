@@ -1,21 +1,8 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { Formik } from "formik";
+import SignInContainer from "./SignInContainer";
 import * as yup from "yup";
 import { useNavigate } from "react-router-native";
-
-import FormikTextInput from "./FormikTextInput";
-import FormikSubmitButton from "./FormikSubmitButton";
-
 import useSignIn from "../hooks/useSignIn";
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingTop: 10,
-  },
-});
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -29,20 +16,6 @@ const validationSchema = yup.object().shape({
     .max(100, "Password must be 4-100 character long")
     .required("Password is required"),
 });
-
-const SignInForm = ({ onSubmit }) => {
-  return (
-    <View style={styles.container}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput
-        name="password"
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      <FormikSubmitButton text="Log In" onSubmit={onSubmit} />
-    </View>
-  );
-};
 
 const initialValues = {
   username: "",
@@ -67,13 +40,11 @@ const SignIn = () => {
   };
 
   return (
-    <Formik
+    <SignInContainer
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-    >
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
+    />
   );
 };
 
